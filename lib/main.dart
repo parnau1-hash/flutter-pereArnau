@@ -1,0 +1,72 @@
+import 'package:flutter/material.dart';
+
+import 'day1_examples/day1_examples_hub.dart'; // ignore: unused_import
+
+void main() {
+  runApp(const PokedexApp());
+}
+
+class Pokemon {
+  const Pokemon({
+    required this.id,
+    required this.name,
+    required this.type,
+    required this.level,
+  });
+
+  final int id;
+  final String name;
+  final String type;
+  final int level;
+
+  String get imagePath => 'assets/images/$id.png';
+}
+
+const List<Pokemon> _equip = [
+  Pokemon(id: 1, name: 'Bulbasur', type: 'Grass / Poison', level: 12),
+  Pokemon(id: 58, name: 'Ivysaur', type: 'Grass / Poison', level: 18),
+  Pokemon(id: 3, name: 'Venusaur', type: 'Grass / Poison', level: 36),
+  Pokemon(id: 4, name: 'Charmander', type: 'Fire', level: 10),
+];
+
+class PokedexApp extends StatelessWidget {
+  const PokedexApp({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      // home: Scaffold(
+      //   body: const Center(
+      //     child: Text('Hola, Flutter!', style: TextStyle(fontSize: 32)),
+      //   ),
+      // ),
+      // Exemple 2
+      //home: const ExamplesHub(),
+
+      // Exemple 3
+      home: Scaffold(
+        body: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            for (final pokemon in _equip) PokemonItem(pokemon: pokemon),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+class PokemonItem extends StatelessWidget {
+  const PokemonItem({super.key, required this.pokemon});
+
+  final Pokemon pokemon;
+
+  @override
+  Widget build(BuildContext context) {
+    return ListTile(
+      leading: Image.asset(pokemon.imagePath, width: 56, height: 56),
+      title: Text(pokemon.name),
+      subtitle: Text('${pokemon.type} - Level ${pokemon.level}'),
+    );
+  }
+}
